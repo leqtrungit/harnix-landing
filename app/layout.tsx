@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Azeret_Mono, Public_Sans, Space_Grotesk } from "next/font/google";
+import { JetBrains_Mono, Public_Sans, Space_Grotesk } from "next/font/google";
 import { SiteProviders } from "@/components/providers";
 import { siteConfig } from "@/lib/config";
 import { LANG_STORAGE_KEY, THEME_STORAGE_KEY } from "@/lib/storage";
@@ -14,16 +14,23 @@ const publicSans = Public_Sans({
 });
 
 const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
+  subsets: ["latin", "vietnamese"],
   weight: ["500", "600", "700"],
   variable: "--font-space-grotesk",
   display: "swap",
 });
 
-const azeretMono = Azeret_Mono({
-  subsets: ["latin"],
+/**
+ * The design specified Azeret Mono, but that face has no Vietnamese coverage —
+ * even upstream it maps 2 of the 90 characters in U+1EA0–1EF9 — so every
+ * Vietnamese label set in it rendered half in Azeret and half in the system
+ * fallback. JetBrains Mono is the nearest geometric substitute that ships the
+ * language.
+ */
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin", "vietnamese"],
   weight: ["400", "500"],
-  variable: "--font-azeret-mono",
+  variable: "--font-jetbrains-mono",
   display: "swap",
 });
 
@@ -80,7 +87,7 @@ export default function RootLayout({
     <html
       lang="vi"
       data-theme="dark"
-      className={`${publicSans.variable} ${spaceGrotesk.variable} ${azeretMono.variable}`}
+      className={`${publicSans.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
       suppressHydrationWarning
     >
       <body>

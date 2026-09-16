@@ -21,7 +21,7 @@ async function font(file: string) {
 export default async function OpengraphImage() {
   const [display, mono] = await Promise.all([
     font("SpaceGrotesk.ttf"),
-    font("AzeretMono-Regular.ttf"),
+    font("JetBrainsMono-Regular.ttf"),
   ]);
 
   return new ImageResponse(
@@ -103,7 +103,7 @@ export default async function OpengraphImage() {
           <span>Nắm từng bước.</span>
         </div>
 
-        <div style={{ display: "flex", fontFamily: "Azeret Mono", fontSize: 26, color: MUTED }}>
+        <div style={{ display: "flex", fontFamily: "JetBrains Mono", fontSize: 26, color: MUTED }}>
           token_usage · 1,240 tokens · run_8c41f2 · completed
         </div>
       </div>
@@ -112,7 +112,7 @@ export default async function OpengraphImage() {
       ...size,
       fonts: [
         { name: "Space Grotesk", data: display, style: "normal", weight: 600 },
-        { name: "Azeret Mono", data: mono, style: "normal", weight: 400 },
+        { name: "JetBrains Mono", data: mono, style: "normal", weight: 400 },
       ],
     },
   );

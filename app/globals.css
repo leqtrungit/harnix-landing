@@ -88,7 +88,7 @@
 
   --font-sans: var(--font-public-sans), system-ui, sans-serif;
   --font-display: var(--font-space-grotesk), system-ui, sans-serif;
-  --font-mono: var(--font-azeret-mono), ui-monospace, monospace;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
 
   --animate-pulse-dot: hxpulse 1.8s ease-in-out infinite;
   --animate-shimmer: hxshim 1.3s linear infinite;
