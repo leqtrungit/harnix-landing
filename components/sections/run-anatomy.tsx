@@ -28,7 +28,7 @@ export function RunAnatomy() {
         {traceSteps.map((row, i) => (
           <div
             key={row.step}
-            className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] border-b border-line"
+            className="grid grid-cols-[repeat(auto-fit,minmax(min(300px,100%),1fr))] border-b border-line"
           >
             <div
               className={`flex flex-wrap items-center gap-[10px] border-r border-line px-4 py-[14px] ${

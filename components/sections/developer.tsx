@@ -25,7 +25,7 @@ export function Developer() {
         <Tag>{t("devBadge")}</Tag>
       </div>
 
-      <div className="mt-[22px] grid grid-cols-[repeat(auto-fit,minmax(320px,1fr))] items-start gap-4">
+      <div className="mt-[22px] grid grid-cols-[repeat(auto-fit,minmax(min(320px,100%),1fr))] items-start gap-4">
         <Card className="overflow-hidden">
           <div
             role="tablist"

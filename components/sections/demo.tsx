@@ -58,7 +58,7 @@ export function Demo() {
         {t("demoSub")}
       </p>
 
-      <div className="mt-6 grid grid-cols-[repeat(auto-fit,minmax(320px,1fr))] items-start gap-4">
+      <div className="mt-6 grid grid-cols-[repeat(auto-fit,minmax(min(320px,100%),1fr))] items-start gap-4">
         <div className="relative grid aspect-video place-items-center overflow-hidden rounded-xl border border-line bg-surface2">
           {playing && videoUrl ? (
             <iframe

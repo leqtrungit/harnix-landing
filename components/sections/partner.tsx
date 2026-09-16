@@ -108,7 +108,7 @@ export function Partner() {
         {t("partnerSub")}
       </p>
 
-      <div className="mt-6 grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] items-start gap-4">
+      <div className="mt-6 grid grid-cols-[repeat(auto-fit,minmax(min(300px,100%),1fr))] items-start gap-4">
         <div className="flex flex-col gap-[14px]">
           <BulletCard
             label={t("youGetLabel")}
@@ -158,7 +158,7 @@ export function Partner() {
                 </div>
               )}
 
-              <div className="grid grid-cols-[repeat(auto-fit,minmax(190px,1fr))] gap-3">
+              <div className="grid grid-cols-[repeat(auto-fit,minmax(min(190px,100%),1fr))] gap-3">
                 <label className="flex flex-col gap-[6px] text-[13px] text-text2">
                   <span>{t("fName")}</span>
                   <input

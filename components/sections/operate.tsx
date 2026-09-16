@@ -12,7 +12,7 @@ export function Operate() {
     <Section>
       <SectionHeading>{t("opHead")}</SectionHeading>
 
-      <div className="mt-7 grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-[14px]">
+      <div className="mt-7 grid grid-cols-[repeat(auto-fit,minmax(min(260px,100%),1fr))] gap-[14px]">
         {opItems.map((item) => (
           <div
             key={item.title}

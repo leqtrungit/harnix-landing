@@ -21,7 +21,7 @@ export function HowItWorks() {
         {t("howHead")}
       </SectionHeading>
 
-      <div className="mt-7 grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-[14px]">
+      <div className="mt-7 grid grid-cols-[repeat(auto-fit,minmax(min(250px,100%),1fr))] gap-[14px]">
         {STEPS.map(({ title, body }, i) => (
           <Card key={title} className="flex flex-col gap-[10px] p-5">
             <div className="flex items-center justify-between gap-[10px]">

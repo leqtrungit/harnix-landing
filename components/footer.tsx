@@ -27,7 +27,7 @@ export function Footer() {
   const t = useCopy();
 
   return (
-    <footer className="mt-[72px] grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] items-start gap-6 border-t border-line pt-8 pb-12">
+    <footer className="mt-[72px] grid grid-cols-[repeat(auto-fit,minmax(min(200px,100%),1fr))] items-start gap-6 border-t border-line pt-8 pb-12">
       <div>
         <Logo markSize={22} wordSize={18} dotSize={4} dotRadius={1.2} />
         <div className="mt-[10px] max-w-[30ch] text-[13.5px] text-text2">
