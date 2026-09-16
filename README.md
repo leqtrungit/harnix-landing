@@ -1,25 +1,84 @@
-# CODING AGENTS: READ THIS FIRST
+# Harnix landing page
 
-This is a **handoff bundle** from Claude Design (claude.ai/design).
+Implementation of `Harnix Landing.dc.html` from the Claude Design handoff, built
+as a Next.js App Router site with Tailwind v4.
 
-A user mocked up designs in HTML/CSS/JS using an AI design tool, then exported this bundle so a coding agent can implement the designs for real.
+```bash
+npm install
+npm run dev      # http://localhost:3000
+npm run build && npm run start
+npm run typecheck
+```
 
-## What you should do — IMPORTANT
+Copy `.env.example` to `.env.local` to set the site URL, milestone, demo status
+and lead destination.
 
-**Read the chat transcripts first.** There are 3 chat transcript(s) in `chats/`. The transcripts show the full back-and-forth between the user and the design assistant — they tell you **what the user actually wants** and **where they landed** after iterating. Don't skip them. The final HTML files are the output, but the chat is where the intent lives.
+## Layout
 
-**Read `project/Harnix Landing.dc.html` in full.** The user had this file open when they triggered the handoff, so it's almost certainly the primary design they want built. Read it top to bottom — don't skim. Then **follow its imports**: open every file it pulls in (shared components, CSS, scripts) so you understand how the pieces fit together before you start implementing.
+| Path | What's in it |
+| --- | --- |
+| `app/layout.tsx` | Fonts, metadata, and the pre-paint theme/language bootstrap |
+| `app/page.tsx` | Section order |
+| `app/globals.css` | Design tokens (dark + light), keyframes, base styles |
+| `app/opengraph-image.tsx` | The 1200×630 social card, rendered from the design's template |
+| `app/icon.tsx` | Favicon drawn from the mark |
+| `app/api/*` | `posts`, `partner`, `waitlist` route handlers |
+| `components/sections/*` | One file per section of the page |
+| `lib/copy.ts` | All copy — VI is the source of truth, EN is a partial overlay |
+| `lib/config.ts` | The knobs the design exposed as editable props |
+| `content/posts.ts` | Blog rows served by `/api/posts` |
+| `design/` | The original handoff bundle: prototypes, transcripts, brief |
 
-**If anything is ambiguous, ask the user to confirm before you start implementing.** It's much cheaper to clarify scope up front than to build the wrong thing.
+## Decisions worth knowing
 
-## About the design files
+**Tokens are verbatim.** Every colour, radius, type size and spacing value comes
+from the design file, including the odd ones (`14.5px`, `11.5px`, `#70707a`).
+They live as CSS custom properties in `app/globals.css` and are exposed to
+Tailwind through `@theme inline`, so `bg-surface2` and `text-text3` resolve to
+the same variables the light theme overrides. Verified against the prototype:
+`#0c0c0d` body, `56px/1.04/-0.03em` h1, `1160px` container with `24px` gutters,
+`12px` card radius on `#141416` / `#26262a`, mono at `11.5px/1.75`.
 
-The design medium is **HTML/CSS/JS** — these are prototypes, not production code. Your job is to **recreate them pixel-perfectly** in whatever technology makes sense for the target codebase (React, Vue, native, whatever fits). Match the visual output; don't copy the prototype's internal structure unless it happens to fit.
+**Dark is the default**, switched only by explicit choice — the OS
+`prefers-color-scheme` is deliberately not consulted, matching the design. The
+choice is stored in `localStorage` and applied by an inline script before first
+paint, so there is no flash. (To respect the OS setting instead, change the
+`bootstrap` string in `app/layout.tsx`.)
 
-**Don't render these files in a browser or take screenshots unless the user asks you to.** Everything you need — dimensions, colors, layout rules — is spelled out in the source. Read the HTML and CSS directly; a screenshot won't tell you anything they don't.
+**English covers nav and hero only**, per §9.1 of the brief. Every other key
+falls back to Vietnamese through `translate()` — that is the design's behaviour,
+not a gap.
 
-## Bundle contents
+**The prototype chrome is gone.** The amber state switcher was a design-review
+tool, so the states it faked are now real:
 
-- `README.md` — this file
-- `chats/` — conversation transcripts (read these!)
-- `project/` — the `Console design with five views` project files (HTML prototypes, assets, components)
+- the blog fetches `/api/posts` and renders loading / loaded / empty / error on
+  its own, with a working retry;
+- both forms validate client-side and POST for real, showing sending, success
+  and server-error states from the response;
+- the demo's coming-soon / ready split is `NEXT_PUBLIC_DEMO_STATUS`.
+
+**Leads have no CRM yet.** `lib/leads.ts` POSTs each submission to
+`LEADS_WEBHOOK_URL` if set, and otherwise logs it server-side while still
+returning success. Swap that one function for the real integration.
+
+**Accessibility.** The tabs, accordion, segmented controls and form errors carry
+real ARIA (`role="tablist"`, `aria-expanded`, `aria-pressed`, `aria-invalid` +
+`aria-describedby`), there is a skip link, the wordmark's dotless `ı` is hidden
+from assistive tech behind an `sr-only` "Harnix", and `prefers-reduced-motion`
+disables the pulse, shimmer and spinner. Checked for horizontal overflow at 390,
+768 and 1440px.
+
+## Still outstanding
+
+- **Screenshots.** The hero console frame and the demo poster are DOM
+  recreations, as they were in the prototype. Swap in real captures.
+- **`/blog` routes.** `content/posts.ts` points at `/blog/<slug>`; those pages
+  are not part of the landing page and do not exist yet.
+- **Demo chapter timings.** `chapters[].at` in `lib/copy.ts` is placeholder
+  spacing; replace with real marks when the video is cut. They only surface once
+  `NEXT_PUBLIC_DEMO_STATUS=ready`.
+- **Outlined-wordmark SVG.** Still needs real font outlines; the lockups here are
+  live text.
+- **Integration snippets** in the developer section are illustrative, and the
+  section says so. The API contract is not settled.
