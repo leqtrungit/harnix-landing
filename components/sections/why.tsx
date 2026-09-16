@@ -22,7 +22,7 @@ export function Why() {
     <Section>
       <SectionHeading className="max-w-[24ch]">{t("worryHead")}</SectionHeading>
 
-      <div className="mt-7 grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-[14px]">
+      <div className="mt-7 grid grid-cols-[repeat(auto-fit,minmax(min(240px,100%),1fr))] gap-[14px]">
         {WORRIES.map(({ icon: Icon, title, body }) => (
           <Card key={title} className="p-5">
             <Icon size={20} stroke="var(--text3)" />

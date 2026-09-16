@@ -19,8 +19,13 @@ const vi = {
   navBlog: "Blog",
   navFaq: "FAQ",
   ctaJoin: "Tham gia waitlist",
+  /** Used in the mobile bar, where the full label will not fit beside the logo. */
+  ctaJoinShort: "Waitlist",
   ctaDemo: "Xem demo",
   themeLabel: "Đổi giao diện sáng/tối",
+  menuOpen: "Mở menu",
+  menuClose: "Đóng menu",
+  menuTitle: "Menu",
   langLabel: "Ngôn ngữ",
   skipToContent: "Tới nội dung chính",
 
@@ -146,6 +151,7 @@ const en: Partial<Record<keyof typeof vi, string>> = {
   navBlog: "Blog",
   navFaq: "FAQ",
   ctaJoin: "Join the waitlist",
+  ctaJoinShort: "Waitlist",
   ctaDemo: "Watch the demo",
   statusPill: "In development · ",
   heroH1: "Harness every run.",

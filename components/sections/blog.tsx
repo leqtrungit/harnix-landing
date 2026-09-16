@@ -15,7 +15,7 @@ function formatMeta(post: Post) {
 
 function Skeletons() {
   return (
-    <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-[14px]">
+    <div className="grid grid-cols-[repeat(auto-fit,minmax(min(250px,100%),1fr))] gap-[14px]">
       {[0, 1, 2].map((i) => (
         <div
           key={i}
@@ -72,7 +72,7 @@ export function Blog() {
         )}
 
         {status === "loaded" && (
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-[14px]">
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(min(250px,100%),1fr))] gap-[14px]">
             {posts.map((post) => (
               <a
                 key={post.slug}

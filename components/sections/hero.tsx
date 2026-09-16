@@ -79,7 +79,7 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))]">
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(min(300px,100%),1fr))]">
           <div className="border-r border-line p-4">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="font-display text-[15px] font-semibold">

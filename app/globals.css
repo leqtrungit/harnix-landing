@@ -53,6 +53,18 @@
   color-scheme: light;
 }
 
+@theme {
+  /* Measured: the full desktop header fits one row from 880px with the web
+     font, but not until 900px with the wider fallback font during the swap
+     window — so the collapse point is 900px. */
+  --breakpoint-nav: 900px;
+  /* Below this the primary CTA needs its short label to fit beside the logo.
+     Measured against the fallback font, not the web font: during the swap
+     window "Tham gia waitlist" overflows the bar at 344px and 360px, and first
+     fits safely at 375px. */
+  --breakpoint-xs: 375px;
+}
+
 @theme inline {
   --color-bg: var(--bg);
   --color-surface: var(--surface);
@@ -113,7 +125,8 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    /* The header is sticky; keep anchor targets clear of it. */
+    /* The header is sticky and 63px tall at every width; keep anchor targets
+       clear of it with a little breathing room. */
     scroll-padding-top: 76px;
   }
 
