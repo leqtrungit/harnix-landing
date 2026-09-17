@@ -5,6 +5,11 @@ import { Card, MonoLabel, Section, SectionHeading, Tag } from "@/components/ui";
 import { siteConfig } from "@/lib/config";
 import type { CopyKey } from "@/lib/copy";
 
+/** Milestone codes pass through; the availability token is translated. */
+function resolveTag(tag: string, t: (key: CopyKey) => string) {
+  return tag === "available" ? t("tagAvailable") : tag;
+}
+
 const STEPS: { title: CopyKey; body: CopyKey }[] = [
   { title: "s1t", body: "s1b" },
   { title: "s2t", body: "s2b" },
@@ -28,7 +33,7 @@ export function HowItWorks() {
               <span className="font-mono text-[11.5px] text-accent">
                 {String(i + 1).padStart(2, "0")}
               </span>
-              <Tag>{siteConfig.stepTags[i]}</Tag>
+              <Tag>{resolveTag(siteConfig.stepTags[i], t)}</Tag>
             </div>
             <h3 className="m-0 font-display text-xl font-semibold tracking-[-0.015em]">
               {t(title)}

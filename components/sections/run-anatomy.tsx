@@ -1,8 +1,8 @@
 "use client";
 
-import { useCopy } from "@/components/providers";
+import { useSite } from "@/components/providers";
 import { Section, SectionHeading, StatusPill } from "@/components/ui";
-import { traceSteps, type TraceKind } from "@/lib/copy";
+import { getTraceSteps, type TraceKind } from "@/lib/copy";
 
 const KIND_COLOR: Record<TraceKind, string> = {
   ok: "var(--ok)",
@@ -12,7 +12,8 @@ const KIND_COLOR: Record<TraceKind, string> = {
 };
 
 export function RunAnatomy() {
-  const t = useCopy();
+  const { t, lang } = useSite();
+  const traceSteps = getTraceSteps(lang);
 
   return (
     <Section>

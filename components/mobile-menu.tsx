@@ -10,7 +10,7 @@ const FOCUSABLE =
   'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
 /** Keep in step with --breakpoint-nav in globals.css. */
-const NAV_BREAKPOINT = "(min-width: 900px)";
+const NAV_BREAKPOINT = "(min-width: 940px)";
 
 export function MobileMenu({
   items,

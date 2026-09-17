@@ -1,16 +1,19 @@
 "use client";
 
 import { useId, useState } from "react";
+import { useSite } from "@/components/providers";
 import { Section, SectionHeading } from "@/components/ui";
-import { faqs } from "@/lib/copy";
+import { getFaqs } from "@/lib/copy";
 
 export function Faq() {
+  const { t, lang } = useSite();
   const [open, setOpen] = useState(0);
   const baseId = useId();
+  const faqs = getFaqs(lang);
 
   return (
     <Section id="faq">
-      <SectionHeading>FAQ</SectionHeading>
+      <SectionHeading>{t("faqHead")}</SectionHeading>
 
       <div className="mt-6 max-w-[820px] overflow-hidden rounded-xl border border-line bg-surface">
         {faqs.map((item, i) => {
@@ -34,14 +37,19 @@ export function Faq() {
                   </span>
                 </button>
               </h3>
-              {isOpen && (
-                <div
-                  id={`${baseId}-answer-${i}`}
-                  className="max-w-[65ch] px-[18px] pb-[18px] text-[15px] text-text2"
-                >
-                  {item.a}
-                </div>
-              )}
+              {/*
+                Always rendered, hidden when collapsed. Two reasons: the
+                FAQPage markup in <StructuredData /> claims these answers are
+                on the page, and `aria-controls` above has to point at an
+                element that actually exists.
+              */}
+              <div
+                id={`${baseId}-answer-${i}`}
+                hidden={!isOpen}
+                className="max-w-[65ch] px-[18px] pb-[18px] text-[15px] text-text2"
+              >
+                {item.a}
+              </div>
             </div>
           );
         })}

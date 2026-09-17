@@ -61,8 +61,12 @@ export const siteConfig = {
   /** Shown in the hero status pill: "Đang xây dựng · M1". */
   milestone: env(process.env.NEXT_PUBLIC_MILESTONE) ?? "M1",
 
-  /** Availability tags on the three "how it works" steps. */
-  stepTags: ["Available", "Available", "M2"] as const,
+  /**
+   * Availability tags on the three "how it works" steps. The literal
+   * `available` resolves to translated copy; anything else renders verbatim,
+   * which is what milestone codes like "M2" want.
+   */
+  stepTags: ["available", "available", "M2"] as const,
 
   demo: {
     status: demoStatus,

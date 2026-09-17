@@ -115,10 +115,10 @@ export function Hero() {
                 tool_result · knowledge_search
               </div>
               <div className="mt-[10px] text-sm text-text">
-                Chính sách bảo hành.pdf · trang 4
+                {t("heroDocLine")}
               </div>
               <div className="mt-[6px] text-[13.5px] text-text2">
-                “Khách hàng có thể đổi trả trong 30 ngày kể từ ngày nhận hàng…”
+                {t("heroQuote")}
               </div>
             </div>
 
