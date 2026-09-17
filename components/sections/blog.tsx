@@ -2,15 +2,16 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { AlertCircleIcon } from "@/components/icons";
-import { useCopy } from "@/components/providers";
+import { useSite } from "@/components/providers";
 import { Section, SectionHeading } from "@/components/ui";
-import type { Post } from "@/content/posts";
+import { postCopy, type Post } from "@/content/posts";
+import { formatDate, type Lang } from "@/lib/copy";
 
 type Status = "loading" | "loaded" | "empty" | "error";
 
-function formatMeta(post: Post) {
-  const [y, m, d] = post.date.split("-");
-  return `${d}/${m}/${y} · ${post.readingMinutes} phút đọc`;
+function formatMeta(post: Post, lang: Lang, readingTime: string) {
+  const reading = readingTime.replace("{N}", String(post.readingMinutes));
+  return `${formatDate(post.date, lang)} · ${reading}`;
 }
 
 function Skeletons() {
@@ -39,7 +40,7 @@ function Skeletons() {
  * loading, empty, error and retry states are identical either way.
  */
 export function Blog({ initialPosts = null }: { initialPosts?: Post[] | null }) {
-  const t = useCopy();
+  const { t, lang } = useSite();
   const [status, setStatus] = useState<Status>(() =>
     initialPosts ? (initialPosts.length ? "loaded" : "empty") : "loading",
   );
@@ -83,21 +84,24 @@ export function Blog({ initialPosts = null }: { initialPosts?: Post[] | null }) 
 
         {status === "loaded" && (
           <div className="grid grid-cols-[repeat(auto-fit,minmax(min(250px,100%),1fr))] gap-[14px]">
-            {posts.map((post) => (
-              <a
-                key={post.slug}
-                href={post.url}
-                className="flex flex-col gap-2 rounded-xl border border-line bg-surface p-[18px] text-text no-underline hover:border-line2"
-              >
-                <div className="font-mono text-[11px] text-text3">
-                  {formatMeta(post)}
-                </div>
-                <div className="font-display text-[17px] font-semibold tracking-[-0.015em]">
-                  {post.title}
-                </div>
-                <div className="text-sm text-text2">{post.excerpt}</div>
-              </a>
-            ))}
+            {posts.map((post) => {
+              const { title, excerpt } = postCopy(post, lang);
+              return (
+                <a
+                  key={post.slug}
+                  href={post.url}
+                  className="flex flex-col gap-2 rounded-xl border border-line bg-surface p-[18px] text-text no-underline hover:border-line2"
+                >
+                  <div className="font-mono text-[11px] text-text3">
+                    {formatMeta(post, lang, t("readingTime"))}
+                  </div>
+                  <div className="font-display text-[17px] font-semibold tracking-[-0.015em]">
+                    {title}
+                  </div>
+                  <div className="text-sm text-text2">{excerpt}</div>
+                </a>
+              );
+            })}
           </div>
         )}
 

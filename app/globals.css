@@ -54,10 +54,11 @@
 }
 
 @theme {
-  /* Measured: the full desktop header fits one row from 880px with the web
-     font, but not until 900px with the wider fallback font during the swap
-     window — so the collapse point is 900px. */
-  --breakpoint-nav: 900px;
+  /* Measured: the full desktop header fits one row from 900px with the web
+     font, but not until 940px with the wider fallback font during the swap
+     window — so the collapse point is 940px. Re-measure when a nav label
+     changes length; "Hỏi đáp" replacing "FAQ" moved this by 40px. */
+  --breakpoint-nav: 940px;
   /* Below this the primary CTA needs its short label to fit beside the logo.
      Measured against the fallback font, not the web font: during the swap
      window "Tham gia waitlist" overflows the bar at 344px and 360px, and first

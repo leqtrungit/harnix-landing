@@ -1,4 +1,4 @@
-import { faqs } from "@/lib/copy";
+import { getFaqs } from "@/lib/copy";
 import { siteConfig } from "@/lib/config";
 
 /**
@@ -14,6 +14,9 @@ import { siteConfig } from "@/lib/config";
  * updates both the rendered accordion and this markup.
  */
 export function StructuredData() {
+  // The page is served as vi-VN, so the markup describes the Vietnamese copy.
+  const faqs = getFaqs("vi");
+
   const organizationId = `${siteConfig.url}/#organization`;
   const websiteId = `${siteConfig.url}/#website`;
 

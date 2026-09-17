@@ -49,7 +49,7 @@ export function Footer() {
         </a>
         {siteConfig.docsUrl ? (
           <a href={siteConfig.docsUrl} className="link">
-            Docs
+            {t("docsLabel")}
           </a>
         ) : (
           <span className="text-text3">{t("docsSoonLabel")}</span>

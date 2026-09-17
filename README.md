@@ -45,9 +45,18 @@ choice is stored in `localStorage` and applied by an inline script before first
 paint, so there is no flash. (To respect the OS setting instead, change the
 `bootstrap` string in `app/layout.tsx`.)
 
-**English covers nav and hero only**, per §9.1 of the brief. Every other key
-falls back to Vietnamese through `translate()` — that is the design's behaviour,
-not a gap.
+**Both languages are complete.** The brief's §9.1 only asked for an English nav
+and hero, but a half-translated page reads as broken, so `lib/copy.ts` carries a
+full pair — including the FAQ, demo chapters, run trace, operate cards and blog
+cards. What deliberately stays untranslated: proper nouns, code and identifiers
+(`user_message`, `gpt-4o-mini`, `run_8c41f2`), the system's own state words
+(`completed`, `running`, `measured`), the product UI labels inside the console
+mock (`Run trace`, `Step detail`, `Tokens in/out`), the sample document's file
+name, and terms of art Vietnamese uses untranslated anyway (agent, knowledge
+base, token, Run, trace, API key, widget, backend, frontend, waitlist, design
+partner, milestone codes). A blog post without an `en` block keeps its
+Vietnamese title — the article itself is Vietnamese, so that is the honest
+fallback.
 
 **The prototype chrome is gone.** The amber state switcher was a design-review
 tool, so the states it faked are now real:

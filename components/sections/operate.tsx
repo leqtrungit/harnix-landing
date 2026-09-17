@@ -1,12 +1,13 @@
 "use client";
 
 import { OpIconGlyph } from "@/components/icons";
-import { useCopy } from "@/components/providers";
+import { useSite } from "@/components/providers";
 import { Section, SectionHeading } from "@/components/ui";
-import { opItems } from "@/lib/copy";
+import { getOpItems } from "@/lib/copy";
 
 export function Operate() {
-  const t = useCopy();
+  const { t, lang } = useSite();
+  const opItems = getOpItems(lang);
 
   return (
     <Section>

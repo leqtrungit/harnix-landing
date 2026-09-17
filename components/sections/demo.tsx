@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import { ClockIcon, PlayIcon } from "@/components/icons";
-import { useCopy } from "@/components/providers";
+import { useSite } from "@/components/providers";
 import { Card, MonoLabel, Section, SectionHeading } from "@/components/ui";
 import { siteConfig } from "@/lib/config";
-import { chapters } from "@/lib/copy";
+import { getChapters } from "@/lib/copy";
 
 const isReady = siteConfig.demo.status === "ready";
 
@@ -45,7 +45,8 @@ function Poster({ opacity }: { opacity: number }) {
 }
 
 export function Demo() {
-  const t = useCopy();
+  const { t, lang } = useSite();
+  const chapters = getChapters(lang);
   const [playing, setPlaying] = useState(false);
   const { videoUrl, transcriptUrl, minutes } = siteConfig.demo;
 

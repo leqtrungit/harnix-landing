@@ -1,16 +1,19 @@
 "use client";
 
 import { useId, useState } from "react";
+import { useSite } from "@/components/providers";
 import { Section, SectionHeading } from "@/components/ui";
-import { faqs } from "@/lib/copy";
+import { getFaqs } from "@/lib/copy";
 
 export function Faq() {
+  const { t, lang } = useSite();
   const [open, setOpen] = useState(0);
   const baseId = useId();
+  const faqs = getFaqs(lang);
 
   return (
     <Section id="faq">
-      <SectionHeading>FAQ</SectionHeading>
+      <SectionHeading>{t("faqHead")}</SectionHeading>
 
       <div className="mt-6 max-w-[820px] overflow-hidden rounded-xl border border-line bg-surface">
         {faqs.map((item, i) => {

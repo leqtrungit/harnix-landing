@@ -2,7 +2,7 @@
 
 import { useId, useState, type FormEvent } from "react";
 import { AlertCircleIcon, CheckIcon, SpinnerIcon } from "@/components/icons";
-import { useCopy } from "@/components/providers";
+import { useSite } from "@/components/providers";
 import {
   Card,
   MonoLabel,
@@ -10,7 +10,7 @@ import {
   SectionHeading,
   segClass,
 } from "@/components/ui";
-import { appOptions, companySizes, type CopyKey } from "@/lib/copy";
+import { getAppOptions, companySizes, type CopyKey } from "@/lib/copy";
 import {
   emptyPartnerSubmission,
   validatePartner,
@@ -56,7 +56,8 @@ function BulletCard({
 }
 
 export function Partner() {
-  const t = useCopy();
+  const { t, lang } = useSite();
+  const appOptions = getAppOptions(lang);
   const fieldId = useId();
   const [values, setValues] = useState<PartnerSubmission>(
     emptyPartnerSubmission,
