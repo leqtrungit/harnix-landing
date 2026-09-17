@@ -45,6 +45,27 @@ export const metadata: Metadata = {
   },
   description,
   applicationName: siteConfig.name,
+  /**
+   * The language toggle swaps copy in place rather than routing, so every
+   * variant of the page lives at the same URL — one canonical, no alternates.
+   */
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  authors: [{ name: siteConfig.name, url: siteConfig.url }],
+  creator: siteConfig.name,
+  publisher: siteConfig.name,
   openGraph: {
     type: "website",
     locale: "vi_VN",

@@ -69,12 +69,25 @@ from assistive tech behind an `sr-only` "Harnix", and `prefers-reduced-motion`
 disables the pulse, shimmer and spinner. Checked for horizontal overflow at 390,
 768 and 1440px.
 
+**SEO lives in the route conventions.** `app/robots.ts`, `app/sitemap.ts` and
+`app/manifest.ts` generate `/robots.txt`, `/sitemap.xml` and the web manifest;
+`/api` is disallowed, and the sitemap lists only `/` because that is the only
+route that exists. `components/structured-data.tsx` emits one JSON-LD graph —
+Organization, WebSite, FAQPage — built from `lib/copy.ts` and `lib/config.ts`,
+so editing a FAQ entry updates the markup with it. The blog rows are passed to
+the section from the server (`<Blog initialPosts={posts} />`) so the titles and
+excerpts are in the first HTML response rather than behind a client fetch.
+
 ## Still outstanding
 
 - **Screenshots.** The hero console frame and the demo poster are DOM
   recreations, as they were in the prototype. Swap in real captures.
-- **`/blog` routes.** `content/posts.ts` points at `/blog/<slug>`; those pages
-  are not part of the landing page and do not exist yet.
+- **`/blog` routes.** `content/posts.ts` points at `/blog/<slug>`, and the blog
+  section and footer both link to `/blog`; those pages are not part of the
+  landing page and do not exist yet, so every one of those links is a 404 that
+  crawlers will follow. Until they ship this is the largest remaining SEO
+  liability on the page — either build the routes (then add them to
+  `app/sitemap.ts`, which has the snippet commented in) or drop the links.
 - **Demo chapter timings.** `chapters[].at` in `lib/copy.ts` is placeholder
   spacing; replace with real marks when the video is cut. They only surface once
   `NEXT_PUBLIC_DEMO_STATUS=ready`.

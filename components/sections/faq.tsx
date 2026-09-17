@@ -34,14 +34,19 @@ export function Faq() {
                   </span>
                 </button>
               </h3>
-              {isOpen && (
-                <div
-                  id={`${baseId}-answer-${i}`}
-                  className="max-w-[65ch] px-[18px] pb-[18px] text-[15px] text-text2"
-                >
-                  {item.a}
-                </div>
-              )}
+              {/*
+                Always rendered, hidden when collapsed. Two reasons: the
+                FAQPage markup in <StructuredData /> claims these answers are
+                on the page, and `aria-controls` above has to point at an
+                element that actually exists.
+              */}
+              <div
+                id={`${baseId}-answer-${i}`}
+                hidden={!isOpen}
+                className="max-w-[65ch] px-[18px] pb-[18px] text-[15px] text-text2"
+              >
+                {item.a}
+              </div>
             </div>
           );
         })}

@@ -31,10 +31,19 @@ function Skeletons() {
   );
 }
 
-export function Blog() {
+/**
+ * `initialPosts` is the server's copy of the rows. Seeding with it puts the
+ * post titles and excerpts in the first HTML response, where crawlers read
+ * them without waiting on a client fetch — the rows are a static module, so
+ * the round trip bought nothing. Pass `null` to fetch on mount instead; the
+ * loading, empty, error and retry states are identical either way.
+ */
+export function Blog({ initialPosts = null }: { initialPosts?: Post[] | null }) {
   const t = useCopy();
-  const [status, setStatus] = useState<Status>("loading");
-  const [posts, setPosts] = useState<Post[]>([]);
+  const [status, setStatus] = useState<Status>(() =>
+    initialPosts ? (initialPosts.length ? "loaded" : "empty") : "loading",
+  );
+  const [posts, setPosts] = useState<Post[]>(initialPosts ?? []);
 
   const load = useCallback(async () => {
     setStatus("loading");
@@ -51,8 +60,9 @@ export function Blog() {
   }, []);
 
   useEffect(() => {
+    if (initialPosts) return;
     void load();
-  }, [load]);
+  }, [initialPosts, load]);
 
   return (
     <Section id="blog">

@@ -17,7 +17,12 @@ function SocialLink({ label, href }: { label: string; href: string }) {
   }
 
   return (
-    <a href={href} className="link" rel="me noreferrer" target="_blank">
+    <a
+      href={href}
+      className="link"
+      rel="me noopener noreferrer"
+      target="_blank"
+    >
       {label}
     </a>
   );
