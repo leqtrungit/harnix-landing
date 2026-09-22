@@ -109,6 +109,12 @@ const vi = {
   retryLabel: "Thử lại",
   blogLoadingLabel: "Đang tải bài viết…",
   readingTime: "{N} phút đọc",
+  blogIndexTitle: "Blog",
+  blogIndexSub: "Nhật ký xây dựng Harnix, từng milestone một.",
+  backToBlog: "← Tất cả bài viết",
+  blogNotFoundTitle: "Không tìm thấy bài viết",
+  blogNotFoundBody: "Bài viết này không tồn tại hoặc đã bị gỡ.",
+  blogViOnlyNote: "Bài viết này hiện chỉ có bản tiếng Việt.",
 
   // --- design partner ----------------------------------------------------
   partnerHead: "Trở thành design partner",
@@ -243,6 +249,12 @@ const en: Record<CopyKey, string> = {
   retryLabel: "Try again",
   blogLoadingLabel: "Loading posts…",
   readingTime: "{N} min read",
+  blogIndexTitle: "Blog",
+  blogIndexSub: "A build log for Harnix, one milestone at a time.",
+  backToBlog: "← All posts",
+  blogNotFoundTitle: "Post not found",
+  blogNotFoundBody: "This post does not exist or has been removed.",
+  blogViOnlyNote: "This post is currently only available in Vietnamese.",
 
   partnerHead: "Become a design partner",
   partnerSub: "We are looking for 1–3 businesses to try it early.",

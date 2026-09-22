@@ -1,0 +1,45 @@
+---
+date: "2026-09-15"
+readingMinutes: 6
+title: "Vì sao mỗi câu trả lời phải là một Run"
+excerpt: "Durable execution nghe như chuyện hạ tầng, nhưng nó quyết định việc bạn có trả lời được khách hay không."
+en:
+  title: "Why every answer has to be a Run"
+  excerpt: "Durable execution sounds like an infrastructure concern, but it decides whether your customer gets an answer at all."
+---
+
+Một câu trả lời của agent hiếm khi chỉ là một lệnh gọi LLM. Nó thường là một chuỗi:
+tìm trong knowledge base, gọi một tool, đợi kết quả, rồi mới soạn câu trả lời cuối
+cùng. Nếu worker xử lý chuỗi đó gặp sự cố ở bước thứ ba, điều gì xảy ra với hai bước
+đã hoàn thành trước đó?
+
+Với hầu hết các triển khai đơn giản, câu trả lời là: mất hết, khách phải hỏi lại từ
+đầu. Đó là lý do Harnix coi mỗi câu trả lời là một **Run** — một đơn vị thực thi bền
+bỉ (durable), được ghi lại từng bước, có thể tiếp tục từ điểm dừng thay vì chạy lại
+từ đầu.
+
+## Run là gì
+
+Một Run ghi lại toàn bộ vòng đời của một câu trả lời: `user_message`, các
+`tool_call` và `tool_result`, `llm_call`, `token_usage`, và trạng thái cuối cùng —
+`completed`, hoặc dừng giữa chừng nếu operator can thiệp. Mỗi bước là một sự kiện
+độc lập, được lưu lại trước khi bước kế tiếp bắt đầu.
+
+Điều này có hai hệ quả trực tiếp:
+
+- Nếu worker crash giữa chừng, Run không mất — nó tiếp tục từ sự kiện cuối cùng đã
+  ghi, không phải từ đầu.
+- Vì mọi bước đều được ghi, operator xem lại được chính xác agent đã đọc tài liệu
+  nào, gọi tool gì, và tốn bao nhiêu token cho câu trả lời đó — không phải đoán.
+
+## Vì sao điều này quan trọng hơn nó nghe
+
+Durable execution nghe như một chi tiết vận hành nội bộ, nhưng nó quyết định trải
+nghiệm thực tế của khách hàng: liệu họ có nhận được câu trả lời khi hạ tầng phía sau
+gặp trục trặc thoáng qua hay không. Một chatbot không có khái niệm Run sẽ trả lỗi
+chung chung khi bước xử lý giữa chừng thất bại. Một hệ thống có Run tiếp tục chạy
+và vẫn trả lời được.
+
+Đây cũng là nền tảng cho khả năng dừng một Run đang chạy — một yêu cầu vận hành cơ
+bản khi bạn quản AI như quản một nhân viên: đôi khi bạn cần can thiệp giữa chừng,
+không phải chờ nó chạy xong rồi mới sửa.
