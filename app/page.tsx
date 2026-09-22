@@ -13,9 +13,11 @@ import { Partner } from "@/components/sections/partner";
 import { RunAnatomy } from "@/components/sections/run-anatomy";
 import { Waitlist } from "@/components/sections/waitlist";
 import { Why } from "@/components/sections/why";
-import { posts } from "@/content/posts";
+import { getAllPosts } from "@/lib/posts";
 
 export default function Home() {
+  const posts = getAllPosts();
+
   return (
     <>
       <StructuredData />

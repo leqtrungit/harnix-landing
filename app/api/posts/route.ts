@@ -1,13 +1,11 @@
 import { NextResponse } from "next/server";
-import { posts } from "@/content/posts";
+import { getAllPosts } from "@/lib/posts";
 
 /** The landing page shows the three most recent posts. */
 const LIMIT = 3;
 
 export async function GET() {
-  const latest = [...posts]
-    .sort((a, b) => b.date.localeCompare(a.date))
-    .slice(0, LIMIT);
+  const latest = getAllPosts().slice(0, LIMIT);
 
   return NextResponse.json(
     { posts: latest },

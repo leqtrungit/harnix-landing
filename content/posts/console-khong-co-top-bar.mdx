@@ -1,0 +1,35 @@
+---
+date: "2026-08-21"
+readingMinutes: 5
+title: "Console không có top bar"
+excerpt: "Một quyết định nhỏ về điều hướng, và lý do nó tiết kiệm thời gian cho operator."
+en:
+  title: "A console with no top bar"
+  excerpt: "A small navigation decision, and why it saves operators time."
+---
+
+Phần lớn console quản trị có cùng một khung: top bar cố định, sidebar cố định, nội
+dung ở giữa. Đó là một khuôn mẫu quen thuộc, và cũng là lý do nó dễ bị chọn mà
+không cần cân nhắc lại.
+
+## Câu hỏi thực sự
+
+Khi thiết kế console của Harnix, câu hỏi không phải "top bar nên có gì" mà là:
+operator thực sự cần làm gì lặp lại nhiều lần trong một phiên làm việc? Câu trả lời
+là xem trace của một Run, kiểm tra chi phí, và chuyển giữa vài agent. Không phải
+điều hướng qua nhiều tầng menu.
+
+Bỏ top bar không phải để tiết kiệm 60px chiều cao màn hình. Nó buộc mọi thứ operator
+cần trong một phiên làm việc phải sống ở một nơi họ có thể với tới ngay, thay vì
+đằng sau một cú click vào menu ẩn.
+
+## Đánh đổi
+
+Quyết định này có chi phí: điều hướng toàn cục — chuyển tổ chức, đổi theme, đăng
+xuất — không còn một vị trí "mặc định" mà mọi người quen tìm. Chúng tôi chấp nhận
+đánh đổi đó, vì tần suất operator cần các thao tác đó thấp hơn nhiều so với tần suất
+họ cần xem một trace hoặc dừng một Run đang chạy.
+
+Một quyết định điều hướng nhỏ, nhưng nó phản ánh cách chúng tôi tiếp cận toàn bộ
+console: tối ưu cho thao tác lặp lại hàng ngày của operator, không tối ưu cho việc
+trông giống các console khác.
