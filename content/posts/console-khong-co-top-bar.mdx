@@ -33,3 +33,31 @@ họ cần xem một trace hoặc dừng một Run đang chạy.
 Một quyết định điều hướng nhỏ, nhưng nó phản ánh cách chúng tôi tiếp cận toàn bộ
 console: tối ưu cho thao tác lặp lại hàng ngày của operator, không tối ưu cho việc
 trông giống các console khác.
+
+{/* en */}
+
+Most admin consoles share the same frame: a fixed top bar, a fixed sidebar, content
+in the middle. It's a familiar pattern — and that familiarity is exactly why it gets
+picked without a second thought.
+
+## The real question
+
+When we designed the Harnix console, the question wasn't "what goes in the top bar"
+but: what does an operator actually need to do, over and over, in a single session?
+The answer is reading a Run's trace, checking cost, and switching between a few
+agents. Not navigating through several layers of menu.
+
+Dropping the top bar isn't about saving 60px of screen height. It forces everything
+an operator needs in a session to live somewhere they can reach immediately, instead
+of behind a click into a hidden menu.
+
+## The trade-off
+
+This decision has a cost: global navigation — switching organizations, changing the
+theme, signing out — no longer has one "default" spot everyone expects to find it.
+We accept that trade-off, because how often an operator needs those actions is far
+lower than how often they need to read a trace or stop a Run that's running.
+
+A small navigation decision, but it reflects how we approach the whole console:
+optimize for the operator's daily repeated actions, not for looking like other
+consoles.

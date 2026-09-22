@@ -1,24 +1,29 @@
-import { getFaqs } from "@/lib/copy";
+import { getFaqs, translate, type Lang } from "@/lib/copy";
 import { siteConfig } from "@/lib/config";
+import { absoluteUrl } from "@/lib/seo";
 
 /**
- * JSON-LD for the landing page. Three graph nodes, cross-referenced by `@id`
- * so crawlers read them as one entity rather than three loose objects:
+ * JSON-LD for the homepage, in the locale it was rendered at. Three graph
+ * nodes, cross-referenced by `@id` so crawlers read them as one entity rather
+ * than three loose objects:
  *
- * - Organization — who is behind the site, for the knowledge panel.
- * - WebSite — the site itself, in Vietnamese.
+ * - Organization — who is behind the site, for the knowledge panel. Global,
+ *   not locale-scoped: there is one company regardless of which language
+ *   page a crawler lands on.
+ * - WebSite — the site itself, scoped to this locale's homepage URL.
  * - FAQPage — the accordion further down. The answers are already on the page
  *   in full, which is what makes them eligible; the markup only labels them.
  *
  * Keep `faqs` in `lib/copy.ts` the single source: editing a question there
  * updates both the rendered accordion and this markup.
  */
-export function StructuredData() {
-  // The page is served as vi-VN, so the markup describes the Vietnamese copy.
-  const faqs = getFaqs("vi");
+export function StructuredData({ lang }: { lang: Lang }) {
+  const faqs = getFaqs(lang);
+  const inLanguage = lang === "vi" ? "vi-VN" : "en-US";
+  const pageUrl = absoluteUrl(lang, "/");
 
   const organizationId = `${siteConfig.url}/#organization`;
-  const websiteId = `${siteConfig.url}/#website`;
+  const websiteId = `${pageUrl}/#website`;
 
   const socials = [
     siteConfig.social.linkedin,
@@ -33,8 +38,7 @@ export function StructuredData() {
       name: siteConfig.name,
       url: siteConfig.url,
       email: siteConfig.email,
-      description:
-        "Nền tảng vận hành AI agent: đưa trợ lý AI vào app sẵn có và theo dõi từng bước của mỗi câu trả lời.",
+      description: translate(lang, "footTagline"),
       logo: {
         "@type": "ImageObject",
         url: `${siteConfig.url}/apple-icon`,
@@ -46,16 +50,16 @@ export function StructuredData() {
     {
       "@type": "WebSite",
       "@id": websiteId,
-      url: siteConfig.url,
+      url: pageUrl,
       name: siteConfig.name,
-      inLanguage: "vi-VN",
+      inLanguage,
       publisher: { "@id": organizationId },
     },
     {
       "@type": "FAQPage",
-      "@id": `${siteConfig.url}/#faq`,
+      "@id": `${pageUrl}/#faq`,
       isPartOf: { "@id": websiteId },
-      inLanguage: "vi-VN",
+      inLanguage,
       mainEntity: faqs.map((item) => ({
         "@type": "Question",
         name: item.q,

@@ -10,7 +10,7 @@ import {
   type ReactNode,
 } from "react";
 import { translate, type CopyKey, type Lang } from "@/lib/copy";
-import { LANG_STORAGE_KEY, THEME_STORAGE_KEY } from "@/lib/storage";
+import { THEME_STORAGE_KEY } from "@/lib/storage";
 
 export type Theme = "dark" | "light";
 
@@ -19,25 +19,31 @@ type SiteContextValue = {
   setTheme: (theme: Theme) => void;
   toggleTheme: () => void;
   lang: Lang;
-  setLang: (lang: Lang) => void;
   t: (key: CopyKey) => string;
 };
 
 const SiteContext = createContext<SiteContextValue | null>(null);
 
 /**
- * The server renders the design's defaults (dark / vi). The inline script in
- * <head> applies the visitor's stored choice before paint, so we read it back
- * on mount rather than guessing during render — that keeps hydration clean.
+ * `lang` comes from the root layout that rendered this tree (one per locale
+ * route, see `components/root-shell.tsx`) and never changes client-side —
+ * switching language is a real navigation to the other locale's URL, so the
+ * server always renders the right language on first paint. Theme is the only
+ * thing that is genuinely client state: the inline bootstrap script in <head>
+ * applies the visitor's stored choice before paint, and we read it back here
+ * on mount rather than guessing during render, which keeps hydration clean.
  */
-export function SiteProviders({ children }: { children: ReactNode }) {
+export function SiteProviders({
+  lang,
+  children,
+}: {
+  lang: Lang;
+  children: ReactNode;
+}) {
   const [theme, setThemeState] = useState<Theme>("dark");
-  const [lang, setLangState] = useState<Lang>("vi");
 
   useEffect(() => {
-    const root = document.documentElement;
-    if (root.dataset.theme === "light") setThemeState("light");
-    if (root.lang === "en") setLangState("en");
+    if (document.documentElement.dataset.theme === "light") setThemeState("light");
   }, []);
 
   const setTheme = useCallback((next: Theme) => {
@@ -50,26 +56,15 @@ export function SiteProviders({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  const setLang = useCallback((next: Lang) => {
-    setLangState(next);
-    document.documentElement.lang = next;
-    try {
-      localStorage.setItem(LANG_STORAGE_KEY, next);
-    } catch {
-      // As above.
-    }
-  }, []);
-
   const value = useMemo<SiteContextValue>(
     () => ({
       theme,
       setTheme,
       toggleTheme: () => setTheme(theme === "dark" ? "light" : "dark"),
       lang,
-      setLang,
       t: (key: CopyKey) => translate(lang, key),
     }),
-    [theme, setTheme, lang, setLang],
+    [theme, setTheme, lang],
   );
 
   return <SiteContext.Provider value={value}>{children}</SiteContext.Provider>;

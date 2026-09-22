@@ -2,9 +2,10 @@
 
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { useCopy } from "@/components/providers";
+import { useSite } from "@/components/providers";
 import { LangToggle, ThemeToggle } from "@/components/toggles";
 import type { CopyKey } from "@/lib/copy";
+import { localizeHref } from "@/lib/i18n";
 
 const FOCUSABLE =
   'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])';
@@ -17,7 +18,7 @@ export function MobileMenu({
 }: {
   items: { href: string; key: CopyKey }[];
 }) {
-  const t = useCopy();
+  const { t, lang } = useSite();
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -152,7 +153,7 @@ export function MobileMenu({
             <ThemeToggle size={38} />
           </div>
           <a
-            href="#waitlist"
+            href={localizeHref(lang, "/#waitlist")}
             onClick={follow}
             className="rounded-lg bg-accent px-4 py-3 text-center text-[15px] font-semibold text-accent-ink no-underline"
           >

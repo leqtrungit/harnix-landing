@@ -3,6 +3,7 @@
 import { useSite } from "@/components/providers";
 import { postCopy, type Post } from "@/content/posts";
 import { formatDate } from "@/lib/copy";
+import { localizeHref } from "@/lib/i18n";
 
 function formatMeta(post: Post, lang: "vi" | "en", readingTime: string) {
   const reading = readingTime.replace("{N}", String(post.readingMinutes));
@@ -37,7 +38,7 @@ export function BlogIndex({ posts }: { posts: Post[] }) {
         return (
           <a
             key={post.slug}
-            href={post.url}
+            href={localizeHref(lang, post.url)}
             className="flex flex-col gap-2 rounded-xl border border-line bg-surface p-[18px] text-text no-underline hover:border-line2"
           >
             <div className="font-mono text-[11px] text-text3">

@@ -1,26 +1,46 @@
 import type { MetadataRoute } from "next";
-import { siteConfig } from "@/lib/config";
+import { getAllPosts } from "@/lib/posts";
+import { absoluteUrl } from "@/lib/seo";
 
-/**
- * The landing page is the only route that exists today. `/blog` and
- * `/blog/<slug>` are linked from the page but not built yet, so they are
- * deliberately left out — submitting URLs that 404 costs crawl budget and
- * earns coverage errors. Add them here the moment those routes ship:
- *
- *   ...posts.map((post) => ({
- *     url: `${siteConfig.url}${post.url}`,
- *     lastModified: new Date(post.date),
- *     changeFrequency: "yearly" as const,
- *     priority: 0.6,
- *   })),
- */
+/** Every static (non-post) route, as a canonical vi-rooted path. */
+const STATIC_PATHS: { path: string; changeFrequency: "weekly" | "daily"; priority: number }[] = [
+  { path: "/", changeFrequency: "weekly", priority: 1 },
+  { path: "/blog", changeFrequency: "daily", priority: 0.7 },
+];
+
+/** Every page, in both locales — landing, blog index, and every post — with matching hreflang alternates. */
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
-    {
-      url: siteConfig.url,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 1,
-    },
-  ];
+  const now = new Date();
+  const posts = getAllPosts();
+
+  const entries: MetadataRoute.Sitemap = STATIC_PATHS.flatMap(({ path, changeFrequency, priority }) => {
+    const languages = { vi: absoluteUrl("vi", path), en: absoluteUrl("en", path) };
+    return [
+      { url: languages.vi, lastModified: now, changeFrequency, priority, alternates: { languages } },
+      { url: languages.en, lastModified: now, changeFrequency, priority, alternates: { languages } },
+    ];
+  });
+
+  for (const post of posts) {
+    const lastModified = new Date(post.date);
+    const languages = { vi: absoluteUrl("vi", post.url), en: absoluteUrl("en", post.url) };
+    entries.push(
+      {
+        url: languages.vi,
+        lastModified,
+        changeFrequency: "yearly",
+        priority: 0.6,
+        alternates: { languages },
+      },
+      {
+        url: languages.en,
+        lastModified,
+        changeFrequency: "yearly",
+        priority: 0.6,
+        alternates: { languages },
+      },
+    );
+  }
+
+  return entries;
 }

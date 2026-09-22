@@ -1,18 +1,30 @@
 "use client";
 
 import { useSite } from "@/components/providers";
-import { postCopy, type Post } from "@/content/posts";
+import type { Post } from "@/content/posts";
 import { formatDate } from "@/lib/copy";
+import { localizeHref } from "@/lib/i18n";
 
-export function PostHeader({ post }: { post: Post }) {
+/**
+ * `title` and `viOnly` are resolved server-side by `getPost` — this component
+ * only owns presentation and the bits that are genuinely route-scoped client
+ * state (theme-independent locale copy via `useSite`).
+ */
+export function PostHeader({
+  post,
+  title,
+  viOnly,
+}: {
+  post: Post;
+  title: string;
+  viOnly: boolean;
+}) {
   const { t, lang } = useSite();
-  const { title } = postCopy(post, lang);
   const reading = t("readingTime").replace("{N}", String(post.readingMinutes));
-  const viOnly = lang === "en" && !post.en;
 
   return (
     <header>
-      <a href="/blog" className="link text-[14.5px]">
+      <a href={localizeHref(lang, "/blog")} className="link text-[14.5px]">
         {t("backToBlog")}
       </a>
       <div className="mt-4 font-mono text-[11px] text-text3">
