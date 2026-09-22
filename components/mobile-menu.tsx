@@ -152,7 +152,7 @@ export function MobileMenu({
             <ThemeToggle size={38} />
           </div>
           <a
-            href="#waitlist"
+            href="/#waitlist"
             onClick={follow}
             className="rounded-lg bg-accent px-4 py-3 text-center text-[15px] font-semibold text-accent-ink no-underline"
           >

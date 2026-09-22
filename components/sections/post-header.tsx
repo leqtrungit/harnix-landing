@@ -4,11 +4,17 @@ import { useSite } from "@/components/providers";
 import { postCopy, type Post } from "@/content/posts";
 import { formatDate } from "@/lib/copy";
 
-export function PostHeader({ post }: { post: Post }) {
+export function PostHeader({
+  post,
+  hasEnBody,
+}: {
+  post: Post;
+  hasEnBody: boolean;
+}) {
   const { t, lang } = useSite();
   const { title } = postCopy(post, lang);
   const reading = t("readingTime").replace("{N}", String(post.readingMinutes));
-  const viOnly = lang === "en" && !post.en;
+  const viOnly = lang === "en" && (!post.en || !hasEnBody);
 
   return (
     <header>

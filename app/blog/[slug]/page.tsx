@@ -5,6 +5,7 @@ import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { SkipLink } from "@/components/skip-link";
 import { mdxComponents } from "@/components/mdx-components";
+import { PostBody } from "@/components/sections/post-body";
 import { PostHeader } from "@/components/sections/post-header";
 import { siteConfig } from "@/lib/config";
 import { getAllSlugs, getPostSource } from "@/lib/posts";
@@ -56,10 +57,15 @@ export default async function BlogPostPage({ params }: Props) {
       <Header />
       <main id="top" className="mx-auto max-w-[1160px] px-6">
         <div className="mx-auto max-w-[680px] pb-24 pt-6">
-          <PostHeader post={post} />
-          <article className="mt-8">
-            <MDXRemote source={content} components={mdxComponents} />
-          </article>
+          <PostHeader post={post} hasEnBody={content.en !== null} />
+          <PostBody
+            vi={<MDXRemote source={content.vi} components={mdxComponents} />}
+            en={
+              content.en ? (
+                <MDXRemote source={content.en} components={mdxComponents} />
+              ) : null
+            }
+          />
         </div>
 
         <Footer />

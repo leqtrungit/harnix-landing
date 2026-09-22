@@ -7,11 +7,11 @@ import { LangToggle, ThemeToggle } from "@/components/toggles";
 import type { CopyKey } from "@/lib/copy";
 
 const NAV: { href: string; key: CopyKey }[] = [
-  { href: "#how", key: "navHow" },
-  { href: "#demo", key: "navDemo" },
-  { href: "#dev", key: "navDev" },
-  { href: "#blog", key: "navBlog" },
-  { href: "#faq", key: "navFaq" },
+  { href: "/#how", key: "navHow" },
+  { href: "/#demo", key: "navDemo" },
+  { href: "/#dev", key: "navDev" },
+  { href: "/blog", key: "navBlog" },
+  { href: "/#faq", key: "navFaq" },
 ];
 
 /**
@@ -26,7 +26,7 @@ export function Header() {
     <header className="sticky top-0 z-50 border-b border-line bg-[color-mix(in_oklab,var(--bg)_88%,transparent)] backdrop-blur-[10px]">
       <div className="mx-auto flex max-w-[1160px] items-center gap-2 px-6 py-[9px] nav:flex-wrap nav:gap-[18px] nav:py-3">
         <a
-          href="#top"
+          href="/#top"
           className="flex shrink-0 items-center gap-[9px] text-text no-underline"
         >
           <Logo markSize={26} wordSize={20} gap={1} />
@@ -55,7 +55,7 @@ export function Header() {
             <ThemeToggle size={34} />
           </div>
           <a
-            href="#waitlist"
+            href="/#waitlist"
             className="rounded-lg bg-accent px-[15px] py-[9px] text-sm font-semibold whitespace-nowrap text-accent-ink no-underline"
           >
             <span className="xs:hidden">{t("ctaJoinShort")}</span>

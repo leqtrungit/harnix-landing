@@ -43,3 +43,43 @@ và vẫn trả lời được.
 Đây cũng là nền tảng cho khả năng dừng một Run đang chạy — một yêu cầu vận hành cơ
 bản khi bạn quản AI như quản một nhân viên: đôi khi bạn cần can thiệp giữa chừng,
 không phải chờ nó chạy xong rồi mới sửa.
+
+{/* en */}
+
+An agent's answer is rarely just one LLM call. It's usually a chain: search the
+knowledge base, call a tool, wait for the result, then draft the final answer. If
+the worker processing that chain fails on the third step, what happens to the two
+steps already completed?
+
+In most simple implementations, the answer is: everything is lost, and the customer
+has to ask again from scratch. That's why Harnix treats every answer as a **Run** —
+a durable unit of execution, recorded step by step, that can resume from where it
+left off instead of starting over.
+
+## What a Run is
+
+A Run records the full lifecycle of an answer: `user_message`, the `tool_call`s and
+`tool_result`s, `llm_call`, `token_usage`, and a final state — `completed`, or
+stopped partway if an operator intervenes. Each step is an independent event,
+persisted before the next one begins.
+
+This has two direct consequences:
+
+- If a worker crashes partway through, the Run isn't lost — it resumes from the last
+  recorded event, not from the start.
+- Because every step is recorded, an operator can see exactly which documents the
+  agent read, which tools it called, and how many tokens that answer cost — not
+  guess at it.
+
+## Why this matters more than it sounds
+
+Durable execution sounds like an internal infrastructure detail, but it decides the
+customer's actual experience: whether they get an answer when the backend has a
+brief hiccup. A chatbot with no concept of a Run returns a generic error when a step
+fails partway through. A system built around Runs keeps going and still delivers an
+answer.
+
+This is also the foundation for being able to stop a Run while it's running — a
+basic operational requirement when you manage AI the way you manage a colleague:
+sometimes you need to step in partway through, not wait for it to finish and fix it
+after.
