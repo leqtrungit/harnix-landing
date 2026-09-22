@@ -1,9 +1,10 @@
 "use client";
 
 import { Logo } from "@/components/logo";
-import { useCopy } from "@/components/providers";
+import { useCopy, useSite } from "@/components/providers";
 import { LangToggle, ThemeToggle } from "@/components/toggles";
 import { siteConfig } from "@/lib/config";
+import { localizeHref } from "@/lib/i18n";
 
 function SocialLink({ label, href }: { label: string; href: string }) {
   const t = useCopy();
@@ -29,7 +30,7 @@ function SocialLink({ label, href }: { label: string; href: string }) {
 }
 
 export function Footer() {
-  const t = useCopy();
+  const { t, lang } = useSite();
 
   return (
     <footer className="mt-[72px] grid grid-cols-[repeat(auto-fit,minmax(min(200px,100%),1fr))] items-start gap-6 border-t border-line pt-8 pb-12">
@@ -44,7 +45,7 @@ export function Footer() {
       </div>
 
       <div className="flex flex-col gap-2 text-sm">
-        <a href="/blog" className="link">
+        <a href={localizeHref(lang, "/blog")} className="link">
           {t("navBlog")}
         </a>
         {siteConfig.docsUrl ? (
@@ -54,7 +55,7 @@ export function Footer() {
         ) : (
           <span className="text-text3">{t("docsSoonLabel")}</span>
         )}
-        <a href="#partner" className="link">
+        <a href={localizeHref(lang, "/#partner")} className="link">
           {t("partnerHead")}
         </a>
       </div>

@@ -3,6 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
 import type { Post } from "@/content/posts";
+import type { Lang } from "@/lib/copy";
 
 const POSTS_DIR = path.join(process.cwd(), "content/posts");
 
@@ -77,4 +78,32 @@ export function getPostSource(slug: string): { post: Post; content: PostBodyCont
 
   const { data, content } = readFile(filename);
   return { post: toPost(slug, data as PostFrontmatter), content: splitBody(content) };
+}
+
+export type LocalizedPost = {
+  post: Post;
+  title: string;
+  excerpt: string;
+  /** Raw MDX for `lang`, falling back to the Vietnamese body when untranslated. */
+  body: string;
+  /** False when `lang` is "en" but the post has no English title/excerpt/body yet. */
+  hasTranslation: boolean;
+};
+
+/**
+ * A single post localized for `lang`, with vi-fallback baked in — the one
+ * function every `/en/blog/*` and `/blog/*` page needs to render its content.
+ */
+export function getPost(slug: string, lang: Lang): LocalizedPost | null {
+  const source = getPostSource(slug);
+  if (!source) return null;
+
+  const { post, content } = source;
+  const hasEnBody = content.en !== null;
+  const hasTranslation = lang === "vi" || (!!post.en && hasEnBody);
+  const { title, excerpt } =
+    lang === "en" && post.en ? post.en : { title: post.title, excerpt: post.excerpt };
+  const body = lang === "en" && hasEnBody ? (content.en as string) : content.vi;
+
+  return { post, title, excerpt, body, hasTranslation };
 }

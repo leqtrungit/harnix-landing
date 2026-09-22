@@ -13,14 +13,16 @@ import { Partner } from "@/components/sections/partner";
 import { RunAnatomy } from "@/components/sections/run-anatomy";
 import { Waitlist } from "@/components/sections/waitlist";
 import { Why } from "@/components/sections/why";
+import type { Lang } from "@/lib/copy";
 import { getAllPosts } from "@/lib/posts";
 
-export default function Home() {
+/** Shared shell for `/` and `/en` — only `lang` (for structured data) differs; the rest reads locale from route-scoped context. */
+export function HomePage({ lang }: { lang: Lang }) {
   const posts = getAllPosts();
 
   return (
     <>
-      <StructuredData />
+      <StructuredData lang={lang} />
       <SkipLink />
       <Header />
       <main id="top" className="mx-auto max-w-[1160px] px-6">

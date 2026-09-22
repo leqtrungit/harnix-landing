@@ -6,6 +6,7 @@ import { useSite } from "@/components/providers";
 import { Section, SectionHeading } from "@/components/ui";
 import { postCopy, type Post } from "@/content/posts";
 import { formatDate, type Lang } from "@/lib/copy";
+import { localizeHref } from "@/lib/i18n";
 
 type Status = "loading" | "loaded" | "empty" | "error";
 
@@ -69,7 +70,7 @@ export function Blog({ initialPosts = null }: { initialPosts?: Post[] | null }) 
     <Section id="blog">
       <div className="flex flex-wrap items-baseline justify-between gap-4">
         <SectionHeading>{t("blogHead")}</SectionHeading>
-        <a href="/blog" className="link text-[14.5px]">
+        <a href={localizeHref(lang, "/blog")} className="link text-[14.5px]">
           {t("blogLink")}
         </a>
       </div>
@@ -89,7 +90,7 @@ export function Blog({ initialPosts = null }: { initialPosts?: Post[] | null }) 
               return (
                 <a
                   key={post.slug}
-                  href={post.url}
+                  href={localizeHref(lang, post.url)}
                   className="flex flex-col gap-2 rounded-xl border border-line bg-surface p-[18px] text-text no-underline hover:border-line2"
                 >
                   <div className="font-mono text-[11px] text-text3">

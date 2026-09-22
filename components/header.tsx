@@ -2,10 +2,12 @@
 
 import { Logo } from "@/components/logo";
 import { MobileMenu } from "@/components/mobile-menu";
-import { useCopy } from "@/components/providers";
+import { useSite } from "@/components/providers";
 import { LangToggle, ThemeToggle } from "@/components/toggles";
 import type { CopyKey } from "@/lib/copy";
+import { localizeHref } from "@/lib/i18n";
 
+/** Canonical (vi-rooted) hrefs — localized per-render against the active locale. */
 const NAV: { href: string; key: CopyKey }[] = [
   { href: "/#how", key: "navHow" },
   { href: "/#demo", key: "navDemo" },
@@ -20,20 +22,21 @@ const NAV: { href: string; key: CopyKey }[] = [
  * into a slide-over panel, leaving the bar as logo, CTA and the menu button.
  */
 export function Header() {
-  const t = useCopy();
+  const { t, lang } = useSite();
+  const nav = NAV.map(({ href, key }) => ({ href: localizeHref(lang, href), key }));
 
   return (
     <header className="sticky top-0 z-50 border-b border-line bg-[color-mix(in_oklab,var(--bg)_88%,transparent)] backdrop-blur-[10px]">
       <div className="mx-auto flex max-w-[1160px] items-center gap-2 px-6 py-[9px] nav:flex-wrap nav:gap-[18px] nav:py-3">
         <a
-          href="/#top"
+          href={localizeHref(lang, "/#top")}
           className="flex shrink-0 items-center gap-[9px] text-text no-underline"
         >
           <Logo markSize={26} wordSize={20} gap={1} />
         </a>
 
         <nav className="ml-3 hidden flex-1 flex-wrap items-center gap-1 nav:flex">
-          {NAV.map(({ href, key }) => (
+          {nav.map(({ href, key }) => (
             <a
               key={href}
               href={href}
@@ -55,13 +58,13 @@ export function Header() {
             <ThemeToggle size={34} />
           </div>
           <a
-            href="/#waitlist"
+            href={localizeHref(lang, "/#waitlist")}
             className="rounded-lg bg-accent px-[15px] py-[9px] text-sm font-semibold whitespace-nowrap text-accent-ink no-underline"
           >
             <span className="xs:hidden">{t("ctaJoinShort")}</span>
             <span className="hidden xs:inline">{t("ctaJoin")}</span>
           </a>
-          <MobileMenu items={NAV} />
+          <MobileMenu items={nav} />
         </div>
       </div>
     </header>
